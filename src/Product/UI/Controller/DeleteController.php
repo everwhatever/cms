@@ -10,20 +10,20 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class DisplayAllController extends AbstractController
+class DeleteController extends AbstractController
 {
     public function __construct(private readonly EntityManagerInterface $entityManager)
     {
     }
 
-    #[Route(path: '/', name: 'display_all_index')]
-    public function displayAllAction(): Response
+    #[Route(path: '/product/delete/{id}', name: 'product_delete_index')]
+    public function deleteAction(int $id): Response
     {
-        $productRepository = $this->entityManager->getRepository(Product::class);
-        $products = $productRepository->findAll();
+        $product = $this->entityManager->getRepository(Product::class)->findOneBy(['id' => $id]);
 
-        return $this->render('product/display_all.html.twig', [
-            'products' => $products
-        ]);
+        $this->entityManager->remove($product);
+        $this->entityManager->flush();
+
+        return $this->redirectToRoute('display_all_index');
     }
 }

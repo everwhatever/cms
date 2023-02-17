@@ -16,8 +16,8 @@ class DisplayOneController extends AbstractController
     {
     }
 
-    #[Route(path: '/product/{id}', name: 'display_all_index')]
-    public function mainAction(int $id): Response
+    #[Route(path: '/product/{id}', name: 'display_one_index')]
+    public function displayOneAction(int $id): Response
     {
         $productRepository = $this->entityManager->getRepository(Product::class);
         $product = $productRepository->findOneBy(['id' => $id]);
