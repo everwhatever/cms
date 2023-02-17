@@ -10,20 +10,20 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class DisplayAllController extends AbstractController
+class DisplayOneController extends AbstractController
 {
     public function __construct(private readonly EntityManagerInterface $entityManager)
     {
     }
 
-    #[Route(path: '/', name: 'display_all_index')]
-    public function mainAction(): Response
+    #[Route(path: '/product/{id}', name: 'display_all_index')]
+    public function mainAction(int $id): Response
     {
         $productRepository = $this->entityManager->getRepository(Product::class);
-        $products = $productRepository->findAll();
+        $product = $productRepository->findOneBy(['id' => $id]);
 
-        return $this->render('product/display_all.html.twig', [
-            'products' => $products
+        return $this->render('product/display_one.html.twig', [
+            'product' => $product
         ]);
     }
 }

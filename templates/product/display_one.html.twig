@@ -1,6 +1,5 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-    {% for product in products %}
         <div class="card" style="width: 18rem;">
             <div class="card-body">
                 <h5 class="card-title">{{ product.name }}</h5>
@@ -10,5 +9,4 @@
                 <a href="#" class="card-link">Another link</a>
             </div>
         </div>
-    {% endfor %}
 {% endblock %}
