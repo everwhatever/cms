@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace App\Blog\UI\Controller;
 
 
+use App\Blog\Application\Message\Command\CreatePostMessage;
+use App\Blog\Domain\Model\Post;
+use App\Blog\Infrastructure\Form\CreatePostType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,7 +31,7 @@ class EditController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->command($form->getData());
 
-            return $this->redirectToRoute('display_one_index', ['id' => $post->getId()]);
+            return $this->redirectToRoute('display_one_post_index', ['id' => $post->getId()]);
         }
 
         return $this->render('blog/create_post.html.twig', [

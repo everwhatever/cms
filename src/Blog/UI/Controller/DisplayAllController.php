@@ -16,7 +16,7 @@ class DisplayAllController extends AbstractController
     {
     }
 
-    #[Route(path: '/', name: 'display_all_index')]
+    #[Route(path: '/blog', name: 'display_all_posts_index')]
     public function displayAllAction(): Response
     {
         $postRepository = $this->entityManager->getRepository(Post::class);

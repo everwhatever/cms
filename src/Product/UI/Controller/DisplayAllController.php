@@ -16,7 +16,7 @@ class DisplayAllController extends AbstractController
     {
     }
 
-    #[Route(path: '/', name: 'display_all_index')]
+    #[Route(path: '/', name: 'display_all_products_index')]
     public function displayAllAction(): Response
     {
         $productRepository = $this->entityManager->getRepository(Product::class);

@@ -28,7 +28,7 @@ class CreateController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $productId = $this->command($form->getData());
 
-            return $this->redirectToRoute('display_one_index', ['id' => $productId]);
+            return $this->redirectToRoute('display_one_product_index', ['id' => $productId]);
         }
 
         return $this->render('product/create_product.html.twig', [

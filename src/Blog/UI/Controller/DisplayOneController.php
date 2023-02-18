@@ -16,7 +16,7 @@ class DisplayOneController extends AbstractController
     {
     }
 
-    #[Route(path: '/post/{id}', name: 'display_one_index')]
+    #[Route(path: '/post/{id}', name: 'display_one_post_index')]
     public function displayOneAction(int $id): Response
     {
         $postRepository = $this->entityManager->getRepository(Post::class);

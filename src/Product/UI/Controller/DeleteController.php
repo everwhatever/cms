@@ -24,6 +24,6 @@ class DeleteController extends AbstractController
         $this->entityManager->remove($product);
         $this->entityManager->flush();
 
-        return $this->redirectToRoute('display_all_index');
+        return $this->redirectToRoute('display_all_products_index');
     }
 }

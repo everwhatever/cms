@@ -30,7 +30,7 @@ class EditController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->command($form->getData());
 
-            return $this->redirectToRoute('display_one_index', ['id' => $product->getId()]);
+            return $this->redirectToRoute('display_one_product_index', ['id' => $product->getId()]);
         }
 
         return $this->render('product/create_product.html.twig', [

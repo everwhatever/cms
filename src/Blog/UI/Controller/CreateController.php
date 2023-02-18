@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Blog\UI\Controller;
 
-use App\Blog\Application\Message\CreatePostMessage;
+use App\Blog\Application\Message\Command\CreatePostMessage;
 use App\Blog\Domain\Model\Post;
 use App\Blog\Infrastructure\Form\CreatePostType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -28,7 +28,7 @@ class CreateController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $postId = $this->command($form->getData());
 
-            return $this->redirectToRoute('display_one_index', ['id' => $postId]);
+            return $this->redirectToRoute('display_one_post_index', ['id' => $postId]);
         }
 
         return $this->render('blog/create_post.html.twig', [
