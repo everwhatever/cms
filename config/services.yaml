@@ -13,7 +13,8 @@ services:
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
-        #Product
+
+    #Product
     App\Product\Application\:
         resource: '../src/Product/Application'
 
@@ -37,6 +38,33 @@ services:
 
     App\Product\Application\Handler\Query\:
         resource: '../src/Product/Application/Handler/Query/'
+        autoconfigure: false
+        tags: [ { name: messenger.message_handler, bus: query.bus } ]
+
+    #Blog
+    App\Blog\Application\:
+        resource: '../src/Blog/Application'
+
+    App\Blog\Domain\:
+        resource: '../src/Blog/Domain'
+
+    App\Blog\Infrastructure\:
+        resource: '../src/Blog/Infrastructure'
+
+    App\Blog\UI\:
+        resource: '../src/Blog/UI'
+
+    App\Blog\UI\Controller\:
+        resource: '../src/Blog/UI/Controller'
+        tags: [ 'controller.service_arguments' ]
+
+    App\Blog\Application\Handler\Command\:
+        resource: '../src/Blog/Application/Handler/Command/'
+        autoconfigure: false
+        tags: [ { name: messenger.message_handler, bus: command.bus } ]
+
+    App\Blog\Application\Handler\Query\:
+        resource: '../src/Blog/Application/Handler/Query/'
         autoconfigure: false
         tags: [ { name: messenger.message_handler, bus: query.bus } ]
 
