@@ -68,5 +68,32 @@ services:
         autoconfigure: false
         tags: [ { name: messenger.message_handler, bus: query.bus } ]
 
+    #User
+    App\User\Application\:
+        resource: '../src/User/Application'
+
+    App\User\Domain\:
+        resource: '../src/User/Domain'
+
+    App\User\Infrastructure\:
+        resource: '../src/User/Infrastructure'
+
+    App\User\UI\:
+        resource: '../src/User/UI'
+
+    App\User\UI\Controller\:
+        resource: '../src/User/UI/Controller'
+        tags: [ 'controller.service_arguments' ]
+
+    App\User\Application\Handler\Command\:
+        resource: '../src/User/Application/Handler/Command/'
+        autoconfigure: false
+        tags: [ { name: messenger.message_handler, bus: command.bus } ]
+
+    App\User\Application\Handler\Query\:
+        resource: '../src/User/Application/Handler/Query/'
+        autoconfigure: false
+        tags: [ { name: messenger.message_handler, bus: query.bus } ]
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
