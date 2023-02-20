@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\User\Domain\Model;
 
+use App\Entity\UserAdditionalInfo;
 use App\User\Infrastructure\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -28,6 +29,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     private ?string $password = null;
+
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?UserAdditionalInfo $userAdditionalInfo = null;
 
     public function getId(): ?int
     {
@@ -97,5 +101,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getUserAdditionalInfo(): ?UserAdditionalInfo
+    {
+        return $this->userAdditionalInfo;
+    }
+
+    public function setUserAdditionalInfo(?UserAdditionalInfo $userAdditionalInfo): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($userAdditionalInfo === null && $this->userAdditionalInfo !== null) {
+            $this->userAdditionalInfo->setUser(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($userAdditionalInfo !== null && $userAdditionalInfo->getUser() !== $this) {
+            $userAdditionalInfo->setUser($this);
+        }
+
+        $this->userAdditionalInfo = $userAdditionalInfo;
+
+        return $this;
     }
 }
