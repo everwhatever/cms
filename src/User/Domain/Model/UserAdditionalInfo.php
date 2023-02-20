@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Entity;
+declare(strict_types=1);
 
-use App\Repository\UserAdditionalInfoRepository;
-use App\User\Domain\Model\User;
+namespace App\User\Domain\Model;
+
+use App\User\Infrastructure\Repository\UserAdditionalInfoRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;

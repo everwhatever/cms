@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Entity;
+declare(strict_types=1);
 
-use App\Repository\AddressRepository;
+namespace App\User\Domain\Model;
+
+use App\User\Infrastructure\Repository\AddressRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AddressRepository::class)]
@@ -23,7 +25,7 @@ class Address
     private ?string $zipCode = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $City = null;
+    private ?string $city = null;
 
     #[ORM\Column(length: 255)]
     private ?string $country = null;
@@ -71,12 +73,12 @@ class Address
 
     public function getCity(): ?string
     {
-        return $this->City;
+        return $this->city;
     }
 
-    public function setCity(string $City): self
+    public function setCity(string $city): self
     {
-        $this->City = $City;
+        $this->city = $city;
 
         return $this;
     }

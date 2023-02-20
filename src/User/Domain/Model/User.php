@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\User\Domain\Model;
 
-use App\Entity\UserAdditionalInfo;
 use App\User\Infrastructure\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;

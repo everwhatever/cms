@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\User\UI\Controller;
 
-use App\User\Application\Message\Command\CreateUserMessage;
-use App\User\Domain\Model\User;
-use App\User\Infrastructure\Form\CreateUserType;
+//use App\User\Application\Message\Command\UpdateUserInfoMessage;
+use App\User\Domain\Model\UserAdditionalInfo;
+use App\User\Infrastructure\Form\UserAdditionalInfoType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,23 +24,23 @@ class EditController extends AbstractController
     #[Route(path: '/user/edit/{id}', name: 'user_edit_index')]
     public function editAction(Request $request, int $id): Response
     {
-        $user = $this->entityManager->getRepository(User::class)->findOneBy(['id' => $id]);
-        $form = $this->createForm(CreateUserType::class, $user);
+        $userData = $this->entityManager->getRepository(UserAdditionalInfo::class)->findOneBy(['id' => $id]);
+        $form = $this->createForm(UserAdditionalInfoType::class, $userData);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->command($form->getData());
+//            $this->command($form->getData());
 
-            return $this->redirectToRoute('display_one_user_index', ['id' => $user->getId()]);
+            return $this->redirectToRoute('display_one_user_index', ['id' => $userData->getId()]);
         }
 
-        return $this->render('user/create_user.html.twig', [
+        return $this->render('user/update_user_info.html.twig', [
             'form' => $form->createView(),
         ]);
     }
 
-    private function command(User $user): void
-    {
-        $message = new CreateUserMessage($user);
-        $this->commandBus->dispatch($message);
-    }
+//    private function command(User $user): void
+//    {
+//        $message = new UpdateUserInfoMessage($user);
+//        $this->commandBus->dispatch($message);
+//    }
 }
