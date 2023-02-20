@@ -23,6 +23,12 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Blog/Domain/Model'
                 prefix: 'App\Blog\Domain\Model'
                 alias: Blog
+            User:
+                is_bundle: false
+                type: attribute
+                dir: '%kernel.project_dir%/src/User/Domain/Model'
+                prefix: 'App\User\Domain\Model'
+                alias: User
 
 when@test:
     doctrine:
