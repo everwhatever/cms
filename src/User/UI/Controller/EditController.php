@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\User\UI\Controller;
 
-//use App\User\Application\Message\Command\UpdateUserInfoMessage;
+use App\User\Application\Message\Command\UpdateUserInfoMessage;
 use App\User\Domain\Model\UserAdditionalInfo;
 use App\User\Infrastructure\Form\UserAdditionalInfoType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Messenger\Stamp\HandledStamp;
 use Symfony\Component\Routing\Annotation\Route;
 
 class EditController extends AbstractController
@@ -28,9 +29,9 @@ class EditController extends AbstractController
         $form = $this->createForm(UserAdditionalInfoType::class, $userData);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-//            $this->command($form->getData());
+            $userDataId = $this->command($form->getData());
 
-            return $this->redirectToRoute('display_one_user_index', ['id' => $userData->getId()]);
+            return $this->redirectToRoute('display_one_user_index', ['id' => $userDataId]);
         }
 
         return $this->render('user/update_user_info.html.twig', [
@@ -38,9 +39,11 @@ class EditController extends AbstractController
         ]);
     }
 
-//    private function command(User $user): void
-//    {
-//        $message = new UpdateUserInfoMessage($user);
-//        $this->commandBus->dispatch($message);
-//    }
+    private function command(UserAdditionalInfo $additionalInfo): int
+    {
+        $message = new UpdateUserInfoMessage($additionalInfo);
+        $envelope = $this->commandBus->dispatch($message);
+
+        return $envelope->last(HandledStamp::class)->getResult();
+    }
 }

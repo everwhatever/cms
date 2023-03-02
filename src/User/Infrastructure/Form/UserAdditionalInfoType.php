@@ -11,6 +11,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -22,9 +23,10 @@ class UserAdditionalInfoType extends AbstractType
         $builder->add('firstName', TextType::class)
             ->add('lastName', TextType::class)
             ->add('phoneNumber', IntegerType::class)
-            ->add('address', CollectionType::class, [
-                'entry_type' => AddressType::class
-            ]);
+            ->add('addresses', CollectionType::class, [
+                'entry_type' => AddressType::class,
+            ])
+            ->add('submit', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)
