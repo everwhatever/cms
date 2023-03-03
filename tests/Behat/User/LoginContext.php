@@ -14,7 +14,9 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class LoginContext extends MinkContext implements Context
 {
 
-    public function __construct(private readonly EntityManagerInterface $entityManager,
+    private User $currentUser;
+
+    public function __construct(private readonly EntityManagerInterface      $entityManager,
                                 private readonly UserPasswordHasherInterface $passwordHasher)
     {
     }
@@ -31,7 +33,7 @@ class LoginContext extends MinkContext implements Context
     /**
      * @Given there is an admin user with email :email and password :password
      */
-    public function thereIsAnAdminUserWithPassword($email, $password)
+    public function thereIsAnAdminUserWithPassword($email, $password): User
     {
         $user = new User();
         $user->setEmail($email);
@@ -41,6 +43,19 @@ class LoginContext extends MinkContext implements Context
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();
+
+        return $user;
     }
 
+    /**
+     * @Given I am logged in as an admin
+     */
+    public function iAmLoggedInAsAnAdmin()
+    {
+        $this->currentUser = $this->thereIsAnAdminUserWithPassword('admin@admin.pl', 'admin');
+        $this->visitPath('/login');
+        $this->getSession()->getPage()->fillField('Email', 'admin@admin.pl');
+        $this->getSession()->getPage()->fillField('Hasło', 'admin');
+        $this->getSession()->getPage()->pressButton('Zaloguj');
+    }
 }

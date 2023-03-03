@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class DisplayAllController extends AbstractController
 {
@@ -16,7 +17,8 @@ class DisplayAllController extends AbstractController
     {
     }
 
-    #[Route(path: '/', name: 'display_all_users_index')]
+    #[Route(path: '/users', name: 'display_all_users_index')]
+    #[IsGranted("ROLE_ADMIN")]
     public function displayAllAction(): Response
     {
         $userRepository = $this->entityManager->getRepository(User::class);
