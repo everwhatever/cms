@@ -1,0 +1,20 @@
+default:
+    suites:
+        user:
+            contexts:
+                - App\Tests\Behat\User\LoginContext
+            paths: [ "%paths.base%/features/user" ]
+    extensions:
+        FriendsOfBehat\SymfonyExtension:
+            # Add this configuration :
+            bootstrap: tests/bootstrap.php
+        Behat\MinkExtension:
+            # adapt this to whatever the real URL is to your local site
+            base_url: http://127.0.0.1:8000/
+            # or use "goutte"
+            default_session: symfony
+            javascript_session: selenium2
+            browser_name: chrome
+            symfony: ~
+            selenium2: ~
+
