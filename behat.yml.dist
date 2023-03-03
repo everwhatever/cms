@@ -2,7 +2,7 @@ default:
     suites:
         user:
             contexts:
-                - App\Tests\Behat\User\LoginContext
+                - App\Tests\Behat\User\AuthenticationContext
             paths: [ "%paths.base%/features/user" ]
     extensions:
         FriendsOfBehat\SymfonyExtension:

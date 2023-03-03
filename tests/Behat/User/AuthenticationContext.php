@@ -11,7 +11,7 @@ use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class LoginContext extends MinkContext implements Context
+class AuthenticationContext extends MinkContext implements Context
 {
 
     private User $currentUser;
