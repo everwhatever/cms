@@ -33,12 +33,9 @@ class AuthenticationContext extends MinkContext implements Context
     /**
      * @Given there is an admin user with email :email and password :password
      */
-    public function thereIsAnAdminUserWithPassword($email, $password): User
+    public function thereIsAnAdminUserWithPassword(string $email, string $password): User
     {
-        $user = new User();
-        $user->setEmail($email);
-        $password = $this->passwordHasher->hashPassword($user, $password);
-        $user->setPassword($password);
+        $user = $this->createUser($email, $password);
         $user->setRoles(['ROLE_ADMIN']);
 
         $this->entityManager->persist($user);
@@ -48,14 +45,51 @@ class AuthenticationContext extends MinkContext implements Context
     }
 
     /**
+     * @Given there is a user with email :email and password :password
+     */
+    public function thereIsAUserUserWithPassword(string $email, string $password): User
+    {
+        $user = $this->createUser($email, $password);
+
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+
+        return $user;
+    }
+
+    /**
+     * @Given I am logged in as a user
+     */
+    public function iAmLoggedInAsAUser()
+    {
+        $this->currentUser = $this->thereIsAUserUserWithPassword('user@user.pl', 'password');
+        $this->login('password');
+    }
+
+    /**
      * @Given I am logged in as an admin
      */
     public function iAmLoggedInAsAnAdmin()
     {
-        $this->currentUser = $this->thereIsAnAdminUserWithPassword('admin@admin.pl', 'admin');
+        $this->currentUser = $this->thereIsAnAdminUserWithPassword('user@user.pl', 'admin');
+        $this->login('admin');
+    }
+
+    private function login(string $password): void
+    {
         $this->visitPath('/login');
-        $this->getSession()->getPage()->fillField('Email', 'admin@admin.pl');
-        $this->getSession()->getPage()->fillField('Hasło', 'admin');
+        $this->getSession()->getPage()->fillField('Email', 'user@user.pl');
+        $this->getSession()->getPage()->fillField('Hasło', $password);
         $this->getSession()->getPage()->pressButton('Zaloguj');
+    }
+
+    private function createUser(string $email, string $password): User
+    {
+        $user = new User();
+        $user->setEmail($email);
+        $password = $this->passwordHasher->hashPassword($user, $password);
+        $user->setPassword($password);
+
+        return $user;
     }
 }

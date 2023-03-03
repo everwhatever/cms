@@ -20,13 +20,21 @@ class UserAdditionalInfoType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('firstName', TextType::class)
-            ->add('lastName', TextType::class)
-            ->add('phoneNumber', IntegerType::class)
+        $builder->add('firstName', TextType::class, [
+            'label' => "Imię"
+        ])
+            ->add('lastName', TextType::class, [
+                'label' => 'Nazwisko'
+            ])
+            ->add('phoneNumber', IntegerType::class, [
+                'label' => 'Numer tel'
+            ])
             ->add('addresses', CollectionType::class, [
                 'entry_type' => AddressType::class,
             ])
-            ->add('submit', SubmitType::class);
+            ->add('submit', SubmitType::class, [
+                'label' => 'Zaktualizuj'
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
